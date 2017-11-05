@@ -14,7 +14,7 @@ public class OS {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		OS os = new OS();
-	    
+	    // Reading in modified test file (test5.txt) which is only reading from memory
 		os.loadFromFile(args[0]);
 	}
 	
