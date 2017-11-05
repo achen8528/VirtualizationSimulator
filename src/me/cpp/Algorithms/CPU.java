@@ -53,8 +53,11 @@ public class CPU {
 					System.out.println("Addr: " + addr + "==> Data: " + data);
 				}
 				else {
+					addr = input.next();
+					data = input.next();
 					// To-do writing to memory
-					// this.writeToMemory(os, input.next(), input.next());
+					// this.writeToMemory(os, addr, data); 
+					// System.out.println(data + " has been written to memory addr: " + addr);
 				}
 			}
 		} catch (Exception ex) {
