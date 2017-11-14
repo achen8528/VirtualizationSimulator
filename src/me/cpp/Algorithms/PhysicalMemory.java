@@ -2,10 +2,58 @@ package me.cpp.Algorithms;
 
 public class PhysicalMemory {
 	private String[][] memory;
+	private boolean[] memUsed;
+	public boolean memFull;
 	
 	public PhysicalMemory() {
 		memory = new String[16][256];  // Initialize the size of the physical memory
+		this.memUsed = new boolean[16];
+		for (int i=0;i<memory.length;i++) {
+			this.memUsed[i] = false;
+		}
+		memFull = false;
 		
+	}
+	
+	/**
+	 * Set the flag on a frame after it's taken
+	 * @param pageFrame The page frame to set taken flag
+	 */
+	public void pageTaken(int pageFrame) {
+		if ( pageFrame < 16 ) {
+			memUsed[pageFrame] = true;
+		}
+		this.calculateMemFull();
+	}
+	
+	/**
+	 * Calculate the memFull boolean variable
+	 * If the memory is filled up, it will get set to memFull
+	 * For use in other classes to check the current state of memory
+	 */
+	public void calculateMemFull() {
+		boolean used = true;
+		for (int i=0;i<memUsed.length;i++) {
+			if ( !memUsed[i] ) {
+				used = false;
+				break;
+			}
+				
+		}
+		memFull = used;
+	}
+	
+	/**
+	 * Used to provide an empty page in phy memory before it is filled up
+	 * @return The page frame number that is available to write it
+	 */
+	public int newPage() {
+		for (int i=0;i<=memory.length;i++) {
+			if ( !this.memUsed[i] ) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/**
@@ -48,7 +96,26 @@ public class PhysicalMemory {
 		return memory[pageFrame][offset];
 	}
 	
+	/**
+	 * Get the memory array, Protected as internal state must not be accessed from the outside
+	 * @return The memory array
+	 */
+	protected final String[][] toArray() {
+		return memory;
+	}
 	
+	/**
+	 * Used to generate a long string of the page content for writing back to disk
+	 * @param pageFrame The page frame to generate output string on
+	 * @return The generated string
+	 */
+	public String toString(int pageFrame) {
+		String output = "";
+		for (int i=0;i<memory[pageFrame].length;i++) {
+			output += (memory[pageFrame][i] + "\n");
+		}
+		return output;
+	}
 	
 	
 }
